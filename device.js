@@ -1,7 +1,19 @@
 var mongoose = require("mongoose");
 
 var deviceSchema = new mongoose.Schema({
-    light: {
+    light1: {
+        type: Number,
+        required: true,
+    },
+    light2: {
+        type: Number,
+        required: true,
+    },
+    light3: {
+        type: Number,
+        required: true,
+    },
+    fan1: {
         type: Number,
         required: true,
     },

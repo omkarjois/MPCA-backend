@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 const Device = require("./device");
 
@@ -18,13 +20,43 @@ async function connect(){
   }
 }
 
-app.post("/light1", async (req, res) => {
+app.post("/control", async (req, res) => {
+  const id = req.body.id;
+  const light1 = req.body.light1;
+  const light2 = req.body.light2;
+  const light3 = req.body.light3;
+  const fan1 = req.body.fan1;
+  console.log(id);
+  console.log(fan1);
   try{
-    const product = await Device.create(req.body);
-    res.status(200).json(product);
+    if(light2 != null){
+        const result = await Device.findByIdAndUpdate({_id:id}, {$set:{light2: light2}}).then((response) => {
+            console.log(response);
+            res.send(response);
+        });
+    }
+    else if(light1 != null){
+        const result = await Device.findByIdAndUpdate({_id:id}, {$set:{light1: light1}}).then((response) => {
+            console.log(response);
+            res.send(response);
+        });
+    }
+    else if(light3 != null){
+        const result = await Device.findByIdAndUpdate({_id:id}, {$set:{light3: light3}}).then((response) => {
+            console.log(response);
+            res.send(response);
+        });
+    }
+    else{
+        const result = await Device.findByIdAndUpdate({_id: id}, {$set:{fan1: fan1}}).then((response) => {
+            console.log(response);
+            res.send(response);
+        });
+    }
+    
   }
-  catch(error){
-    console.log(error);
+  catch(err){
+    console.log(err);
   }
 })
 
